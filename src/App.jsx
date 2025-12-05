@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import ArticleList from "./components/ArticleList";
 import ArticleDetail from "./components/ArticleDetail";
@@ -11,6 +11,12 @@ function App() {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [filteredArticles, setFilteredArticles] = useState(articles);
   const [showWelcome, setShowWelcome] = useState(true);
+
+  const categoryOptions = useMemo(() => {
+    const unique = Array.from(new Set(categories));
+    const withoutAll = unique.filter((c) => c !== "All");
+    return ["All", ...withoutAll.sort((a, b) => a.localeCompare(b))];
+  }, []);
 
   useEffect(() => {
     let result = articles;
@@ -33,7 +39,8 @@ function App() {
       setShowWelcome(false);
     }
 
-    setFilteredArticles(result);
+    const sorted = [...result].sort((a, b) => a.title.localeCompare(b.title));
+    setFilteredArticles(sorted);
   }, [searchQuery, selectedCategory]);
 
   const handleSearch = (e) => {
@@ -43,6 +50,14 @@ function App() {
 
   const handleArticleClick = (article) => {
     setSelectedArticle(article);
+    document.body.classList.add("modal-open");
+  };
+
+  const handleInternalLink = (title) => {
+    const target = articles.find((a) => a.title === title);
+    if (!target) return;
+    setSelectedArticle(target);
+    setShowWelcome(false);
     document.body.classList.add("modal-open");
   };
 
@@ -148,22 +163,27 @@ function App() {
               <div className="featured-topics">
                 <h2 className="section-title">Featured Topics</h2>
                 <div className="topic-grid">
-                  {categories.slice(1).map((category) => (
-                    <div
-                      key={category}
-                      className="topic-card"
-                      onClick={() => {
-                        setSelectedCategory(category);
-                        setShowWelcome(false);
-                      }}
-                    >
-                      <h3>{category}</h3>
-                      <p>
-                        {articles.filter((a) => a.category === category).length}{" "}
-                        articles
-                      </p>
-                    </div>
-                  ))}
+                  {categoryOptions
+                    .filter((category) => category !== "All")
+                    .map((category) => (
+                      <div
+                        key={category}
+                        className="topic-card"
+                        onClick={() => {
+                          setSelectedCategory(category);
+                          setShowWelcome(false);
+                        }}
+                      >
+                        <h3>{category}</h3>
+                        <p>
+                          {
+                            articles.filter((a) => a.category === category)
+                              .length
+                          }{" "}
+                          articles
+                        </p>
+                      </div>
+                    ))}
                 </div>
               </div>
             </section>
@@ -182,7 +202,7 @@ function App() {
               </div>
 
               <CategoryFilter
-                categories={categories}
+                categories={categoryOptions}
                 selectedCategory={selectedCategory}
                 onCategoryChange={setSelectedCategory}
               />
@@ -198,7 +218,11 @@ function App() {
 
       {/* Article Detail Modal */}
       {selectedArticle && (
-        <ArticleDetail article={selectedArticle} onClose={handleCloseArticle} />
+        <ArticleDetail
+          article={selectedArticle}
+          onClose={handleCloseArticle}
+          onInternalLink={handleInternalLink}
+        />
       )}
 
       {/* Footer */}
