@@ -548,6 +548,72 @@ const rawArticles = [
     author: "Trades Encyclopedia",
     date: "2024-12-05",
   },
+  {
+    id: 50,
+    title: "Ancient Astronomy: Mapping the Sky",
+    category: "Science",
+    summary:
+      "See how ancient civilizations tracked stars, planets, and seasons to build calendars and monuments.",
+    content:
+      "Long before telescopes, ancient astronomers in Mesopotamia, Egypt, China, and Mesoamerica mapped the heavens with the naked eye. They tracked planetary motions, eclipses, and solstices to build calendars for agriculture and ritual life. Megalithic sites like Stonehenge, Nabta Playa, and Chaco Canyon align with solar or lunar events, revealing sophisticated sky knowledge. These early observations laid foundations for later Greek and Islamic astronomy, showing that careful measurement and patient recordkeeping can unlock cosmic patterns.",
+    author: "Science Editors",
+    date: "2024-12-05",
+  },
+  {
+    id: 51,
+    title: "Agile Project Management Basics",
+    category: "Programming",
+    summary:
+      "Learn core agile concepts—sprints, backlogs, standups, and retros—to ship software faster.",
+    content:
+      "Agile project management favors iterative delivery, close customer feedback, and small, cross-functional teams. Work is organized into sprints with a prioritized backlog, daily standups for alignment, and retrospectives to improve process. Lightweight artifacts—user stories, acceptance criteria, and burndown charts—replace heavy upfront documentation. Agile succeeds when teams embrace collaboration, limit work in progress, and frequently ship increments to validate value.",
+    author: "Programming Editors",
+    date: "2024-12-05",
+  },
+  {
+    id: 52,
+    title: "Artisan Bread Baking at Home",
+    category: "Culinary",
+    summary:
+      "Bake crusty sourdough and lean loaves with proper fermentation, hydration, and oven spring.",
+    content:
+      "Great bread relies on time and technique more than gadgets. Start with quality flour, water, salt, and a preferment or sourdough starter. Autolyse builds gluten, while stretch-and-folds strengthen dough without intensive kneading. Bulk fermentation develops flavor; proper shaping and tension create open crumb. Baking on preheated steel or stone with steam yields crisp crust and strong oven spring. Patience with fermentation and gentle handling are the secrets to bakery-quality bread at home.",
+    author: "Culinary Editors",
+    date: "2024-12-05",
+  },
+  {
+    id: 53,
+    title: "Bioinformatics: Data in Biology",
+    category: "Science",
+    summary:
+      "Discover how computing, statistics, and genomics intersect to decode biological data.",
+    content:
+      "Bioinformatics applies algorithms to biological datasets like genomes, proteomes, and single-cell sequences. Common tasks include sequence alignment, variant calling, gene expression analysis, and protein structure prediction. Tools such as BLAST, Bowtie, and Bioconductor enable efficient analysis, while Python and R remain core languages. Clean metadata, reproducible pipelines, and versioned reference data are crucial for trustworthy results across labs.",
+    author: "Science Editors",
+    date: "2024-12-05",
+  },
+  {
+    id: 54,
+    title: "Blockchain Fundamentals for Builders",
+    category: "Technology",
+    summary:
+      "Understand blocks, consensus, smart contracts, and when decentralized ledgers make sense.",
+    content:
+      "Blockchains are append-only ledgers secured by cryptography and consensus. Transactions are grouped into blocks, hashed, and chained to prevent tampering. Consensus mechanisms like proof of work and proof of stake determine how nodes agree on state. Smart contract platforms (e.g., Ethereum) run code on-chain for tokens, NFTs, and decentralized apps. Builders must weigh decentralization benefits against cost, scalability, and regulatory considerations before choosing a chain.",
+    author: "Technology Editors",
+    date: "2024-12-05",
+  },
+  {
+    id: 55,
+    title: "Business Analytics Essentials",
+    category: "Education",
+    summary:
+      "Learn how to turn raw data into decisions with metrics, dashboards, and experiments.",
+    content:
+      "Business analytics combines data cleaning, descriptive dashboards, and hypothesis-driven experiments to guide strategy. Analysts define clear metrics and north-star KPIs, build reliable data models, and visualize trends with tools like Looker, Power BI, or Tableau. A/B testing and causal methods validate product changes, while cohort and funnel analyses reveal user behavior. Communicating insights plainly—and tying them to actions—matters more than complex models.",
+    author: "Education Editors",
+    date: "2024-12-05",
+  },
 ];
 
 export const articles = rawArticles.map((article) => ({
