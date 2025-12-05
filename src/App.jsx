@@ -4,6 +4,7 @@ import ArticleList from "./components/ArticleList";
 import ArticleDetail from "./components/ArticleDetail";
 import CategoryFilter from "./components/CategoryFilter";
 import { articles, categories } from "./data/articles";
+import useLcarsAudio from "./useLcarsAudio";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,6 +12,7 @@ function App() {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [filteredArticles, setFilteredArticles] = useState(articles);
   const [showWelcome, setShowWelcome] = useState(true);
+  const { playNav, playAffirm, playDismiss } = useLcarsAudio();
 
   const categoryOptions = useMemo(() => {
     const unique = Array.from(new Set(categories));
@@ -21,14 +23,10 @@ function App() {
   useEffect(() => {
     let result = articles;
 
-    // Filter by category
     if (selectedCategory !== "All") {
-      result = result.filter(
-        (article) => article.category === selectedCategory
-      );
+      result = result.filter((article) => article.category === selectedCategory);
     }
 
-    // Filter by search query
     if (searchQuery.trim()) {
       result = result.filter(
         (article) =>
@@ -46,14 +44,17 @@ function App() {
   const handleSearch = (e) => {
     e.preventDefault();
     setShowWelcome(false);
+    playNav();
   };
 
   const handleArticleClick = (article) => {
+    playAffirm();
     setSelectedArticle(article);
     document.body.classList.add("modal-open");
   };
 
   const handleCategoryChange = (category) => {
+    playNav();
     setSelectedCategory(category);
     setShowWelcome(false);
     if (searchQuery) {
@@ -62,6 +63,7 @@ function App() {
   };
 
   const handleInternalLink = (title) => {
+    playAffirm();
     const target = articles.find((a) => a.title === title);
     if (!target) return;
     setSelectedArticle(target);
@@ -70,12 +72,19 @@ function App() {
   };
 
   const handleCloseArticle = () => {
+    playDismiss();
     setSelectedArticle(null);
     document.body.classList.remove("modal-open");
   };
 
   const handleBrowseClick = () => {
+    playAffirm();
     setShowWelcome(false);
+  };
+
+  const handleHomeClick = () => {
+    playNav();
+    setShowWelcome(true);
   };
 
   return (
@@ -107,13 +116,14 @@ function App() {
               placeholder="Search articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={playNav}
               aria-label="Search encyclopedia"
             />
           </form>
 
           <button
             className="menu-button"
-            onClick={() => setShowWelcome(true)}
+            onClick={handleHomeClick}
             aria-label="Home"
           >
             <svg
@@ -177,9 +187,7 @@ function App() {
                       <div
                         key={category}
                         className="topic-card"
-                        onClick={() => {
-                          handleCategoryChange(category);
-                        }}
+                        onClick={() => handleCategoryChange(category)}
                       >
                         <h3>{category}</h3>
                         <p>

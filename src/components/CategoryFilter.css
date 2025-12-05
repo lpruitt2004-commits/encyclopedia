@@ -1,59 +1,51 @@
 .category-filter {
-  margin: var(--spacing-lg) 0;
+  margin: 1.4rem 0 1rem;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.35rem;
 }
 
 .category-scroll {
-  display: flex;
-  gap: var(--spacing-sm);
+  display: inline-flex;
+  gap: 0.5rem;
   min-width: min-content;
-  padding-bottom: var(--spacing-sm);
 }
 
 .category-btn {
-  padding: var(--spacing-sm) var(--spacing-lg);
-  background-color: var(--surface);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
+  padding: 0.55rem 1.15rem;
+  background: var(--lcars-panel);
+  color: var(--lcars-muted);
+  border: 2px solid var(--lcars-border);
+  border-radius: var(--radius-pill);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   white-space: nowrap;
-  transition: all var(--transition-fast);
-  cursor: pointer;
+  transition: transform var(--fast), box-shadow var(--fast),
+    border-color var(--fast), color var(--fast);
 }
 
 .category-btn:hover {
-  background-color: var(--border-color);
-  transform: none;
-  box-shadow: none;
+  border-color: var(--lcars-amber);
+  color: var(--lcars-text);
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.28);
 }
 
 .category-btn.active {
-  background-color: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
+  background: linear-gradient(90deg, var(--lcars-amber), var(--lcars-cyan));
+  color: #130f22;
+  border-color: transparent;
 }
 
-.category-btn.active:hover {
-  background-color: var(--primary-dark);
-}
-
-/* Hide scrollbar but keep functionality */
 .category-filter::-webkit-scrollbar {
-  height: 4px;
+  height: 5px;
 }
 
 .category-filter::-webkit-scrollbar-track {
-  background: var(--surface);
+  background: rgba(43, 39, 65, 0.6);
 }
 
 .category-filter::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 2px;
-}
-
-.category-filter::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary-color);
+  background: var(--lcars-amber);
+  border-radius: var(--radius-pill);
 }
