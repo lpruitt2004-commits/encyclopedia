@@ -53,6 +53,14 @@ function App() {
     document.body.classList.add("modal-open");
   };
 
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setShowWelcome(false);
+    if (searchQuery) {
+      setSearchQuery("");
+    }
+  };
+
   const handleInternalLink = (title) => {
     const target = articles.find((a) => a.title === title);
     if (!target) return;
@@ -170,8 +178,7 @@ function App() {
                         key={category}
                         className="topic-card"
                         onClick={() => {
-                          setSelectedCategory(category);
-                          setShowWelcome(false);
+                          handleCategoryChange(category);
                         }}
                       >
                         <h3>{category}</h3>
@@ -204,7 +211,7 @@ function App() {
               <CategoryFilter
                 categories={categoryOptions}
                 selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
+                onCategoryChange={handleCategoryChange}
               />
 
               <ArticleList
