@@ -1,14 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
+import ArticleList from "./components/ArticleList";
+import ArticleDetail from "./components/ArticleDetail";
+import CategoryFilter from "./components/CategoryFilter";
+import { articles, categories } from "./data/articles";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [filteredArticles, setFilteredArticles] = useState(articles);
+  const [showWelcome, setShowWelcome] = useState(true);
+
+  useEffect(() => {
+    let result = articles;
+
+    // Filter by category
+    if (selectedCategory !== "All") {
+      result = result.filter((article) => article.category === selectedCategory);
+    }
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      result = result.filter(
+        (article) =>
+          article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          article.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          article.content.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setShowWelcome(false);
+    }
+
+    setFilteredArticles(result);
+  }, [searchQuery, selectedCategory]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Searching for:", searchQuery);
-    // TODO: Implement search functionality
+    setShowWelcome(false);
+  };
+
+  const handleArticleClick = (article) => {
+    setSelectedArticle(article);
+    document.body.classList.add("modal-open");
+  };
+
+  const handleCloseArticle = () => {
+    setSelectedArticle(null);
+    document.body.classList.remove("modal-open");
+  };
+
+  const handleBrowseClick = () => {
+    setShowWelcome(false);
   };
 
   return (
@@ -46,8 +88,8 @@ function App() {
 
           <button
             className="menu-button"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
+            onClick={() => setShowWelcome(true)}
+            aria-label="Home"
           >
             <svg
               width="24"
@@ -59,9 +101,8 @@ function App() {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="18" x2="21" y2="18" />
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
           </button>
         </div>
@@ -70,70 +111,79 @@ function App() {
       {/* Main Content */}
       <main className="main">
         <div className="container">
-          <section className="welcome fade-in">
-            <h1 className="welcome-title">Welcome to Encyclopedia</h1>
-            <p className="welcome-subtitle">
-              Your mobile-first progressive web app for exploring knowledge
-            </p>
+          {showWelcome ? (
+            <section className="welcome-section fade-in">
+              <div className="britannica-hero">
+                <h1 className="hero-title">Encyclopedia</h1>
+                <p className="hero-tagline">
+                  Explore trusted knowledge on thousands of topics
+                </p>
+                <button className="browse-btn" onClick={handleBrowseClick}>
+                  Browse Articles
+                </button>
+              </div>
 
-            <div className="welcome-features">
-              <div className="feature-card">
-                <div className="feature-icon">📱</div>
-                <h3 className="feature-title">Mobile First</h3>
-                <p className="feature-description">
-                  Optimized for mobile devices with a responsive design that
-                  works seamlessly on any screen size.
+              <div className="featured-topics">
+                <h2 className="section-title">Featured Topics</h2>
+                <div className="topic-grid">
+                  {categories.slice(1).map((category) => (
+                    <div
+                      key={category}
+                      className="topic-card"
+                      onClick={() => {
+                        setSelectedCategory(category);
+                        setShowWelcome(false);
+                      }}
+                    >
+                      <h3>{category}</h3>
+                      <p>
+                        {
+                          articles.filter((a) => a.category === category)
+                            .length
+                        }{" "}
+                        articles
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ) : (
+            <section className="articles-section fade-in">
+              <div className="section-header">
+                <h2 className="section-title">
+                  {selectedCategory === "All"
+                    ? "All Articles"
+                    : selectedCategory}
+                </h2>
+                <p className="article-count">
+                  {filteredArticles.length} article
+                  {filteredArticles.length !== 1 ? "s" : ""}
                 </p>
               </div>
 
-              <div className="feature-card">
-                <div className="feature-icon">⚡</div>
-                <h3 className="feature-title">Lightning Fast</h3>
-                <p className="feature-description">
-                  Built with modern web technologies for instant loading and
-                  smooth performance.
-                </p>
-              </div>
+              <CategoryFilter
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onCategoryChange={setSelectedCategory}
+              />
 
-              <div className="feature-card">
-                <div className="feature-icon">🔌</div>
-                <h3 className="feature-title">Works Offline</h3>
-                <p className="feature-description">
-                  Progressive Web App capabilities allow you to access content
-                  even without an internet connection.
-                </p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-icon">🔍</div>
-                <h3 className="feature-title">Easy Search</h3>
-                <p className="feature-description">
-                  Quickly find the information you need with our powerful search
-                  functionality.
-                </p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-icon">🎨</div>
-                <h3 className="feature-title">Beautiful UI</h3>
-                <p className="feature-description">
-                  Clean and modern interface with support for both light and
-                  dark modes.
-                </p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-icon">🌐</div>
-                <h3 className="feature-title">Accessible</h3>
-                <p className="feature-description">
-                  Designed with accessibility in mind to ensure everyone can use
-                  the app.
-                </p>
-              </div>
-            </div>
-          </section>
+              <ArticleList
+                articles={filteredArticles}
+                onArticleClick={handleArticleClick}
+              />
+            </section>
+          )}
         </div>
       </main>
+
+      {/* Article Detail Modal */}
+      {selectedArticle && (
+        <ArticleDetail
+          article={selectedArticle}
+          onClose={handleCloseArticle}
+        />
+      )}
 
       {/* Footer */}
       <footer className="footer">

@@ -1,0 +1,59 @@
+.category-filter {
+  margin: var(--spacing-lg) 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-scroll {
+  display: flex;
+  gap: var(--spacing-sm);
+  min-width: min-content;
+  padding-bottom: var(--spacing-sm);
+}
+
+.category-btn {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.category-btn:hover {
+  background-color: var(--border-color);
+  transform: none;
+  box-shadow: none;
+}
+
+.category-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.category-btn.active:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Hide scrollbar but keep functionality */
+.category-filter::-webkit-scrollbar {
+  height: 4px;
+}
+
+.category-filter::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+.category-filter::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+.category-filter::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
