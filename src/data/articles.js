@@ -112,92 +112,243 @@ export const articles = [
     category: "AI",
     summary:
       "Master Microsoft's Phi-3 Mini (3.8B) - A comprehensive guide covering setup, prompting techniques, advanced features, and optimization for M1 MacBook Air.",
-    content: `# Phi-3 Mini (3.8B) - Complete Guide
+    content: `# Phi-3 Mini (3.8B) - Complete Guide for Beginners
 
-## Overview
-Phi-3 Mini is Microsoft's compact yet powerful language model with 3.8 billion parameters, optimized for efficiency without sacrificing capability. It's perfect for M1 MacBook Air.
+## What is Phi-3 Mini?
 
-## Installation & Setup
+Phi-3 Mini is Microsoft's efficient AI language model with 3.8 billion parameters. It runs locally on your M1 MacBook Air, meaning:
+- **No internet required** after download
+- **Your data stays private** - nothing sent to cloud servers
+- **Fast responses** - optimized for Apple Silicon
+- **Free to use** - no API costs
 
-### Basic Installation
+## Step 1: Install Ollama (One-Time Setup)
+
+First, you need Ollama to run AI models on your Mac.
+
+**Download and Install:**
+1. Go to [https://ollama.ai](https://ollama.ai)
+2. Click "Download for macOS"
+3. Open the downloaded file and drag Ollama to Applications
+4. Open Terminal (Cmd+Space, type "Terminal")
+5. Verify installation: Type \`ollama --version\` and press Enter
+
+You should see version information. If not, restart Terminal.
+
+## Step 2: Download Phi-3 Mini
+
+In Terminal, run this command:
+
 \`\`\`bash
-# Pull the model
 ollama pull phi3:mini
+\`\`\`
 
-# Run interactively
+This downloads the model (about 2.2GB). Takes 5-10 minutes depending on your internet speed. You only do this once.
+
+**What's happening:**
+- Ollama downloads the model files
+- Stores them locally on your Mac
+- Shows download progress with percentage
+
+## Step 3: Start Using Phi-3
+
+### Interactive Chat Mode (Easiest Way)
+
+\`\`\`bash
 ollama run phi3:mini
-
-# Run with custom parameters
-ollama run phi3:mini --temperature 0.7 --top-p 0.9
 \`\`\`
 
-### Model Variants
-- \`phi3:mini\` - Standard 3.8B model (recommended)
-- \`phi3:medium\` - 14B model (requires more RAM)
+Now you can chat! Type anything and press Enter:
 
-## Advanced Usage
+**Examples:**
+- \`Explain Python loops simply\`
+- \`Write a professional email about a project delay\`
+- \`Summarize the main points of quantum computing\`
+- \`Debug this code: [paste your code]\`
 
-### CLI Parameters
+**To exit:** Type \`/bye\` and press Enter
+
+### One-Shot Command (No Chat Session)
+
 \`\`\`bash
-# Temperature (0.0-2.0): Lower = more focused, Higher = more creative
-ollama run phi3:mini --temperature 0.3
-
-# Top-P (nucleus sampling): 0.1-1.0
-ollama run phi3:mini --top-p 0.9
-
-# Context window
-ollama run phi3:mini --num-ctx 4096
-
-# Seed for reproducibility
-ollama run phi3:mini --seed 42
+ollama run phi3:mini "Explain what APIs are in simple terms"
 \`\`\`
 
-### API Usage
+Gets one answer and exits immediately. Great for scripts!
+
+## Step 4: Customize Responses
+
+### Control Creativity (Temperature)
+
 \`\`\`bash
-# Start Ollama server
-ollama serve
+# More focused/deterministic (good for facts, code)
+ollama run phi3:mini --temperature 0.3 "Explain sorting algorithms"
 
-# Query via API
-curl http://localhost:11434/api/generate -d '{
-  "model": "phi3:mini",
-  "prompt": "Explain quantum computing",
-  "stream": false
-}'
+# More creative/varied (good for writing, brainstorming)
+ollama run phi3:mini --temperature 0.9 "Write a creative story opening"
 \`\`\`
 
-## Prompting Best Practices
+**Temperature Guide:**
+- **0.1-0.3**: Factual, consistent, technical answers
+- **0.5-0.7**: Balanced (default is usually 0.7)
+- **0.8-1.2**: Creative, varied, storytelling
 
-### System Prompts
-\`\`\`
-You are a helpful AI assistant. Be concise and accurate.
-Focus on practical solutions. Explain complex topics simply.
+### Set Context Length
+
+\`\`\`bash
+# Larger context for long documents (uses more RAM)
+ollama run phi3:mini --num-ctx 8192
+
+# Smaller context for faster responses
+ollama run phi3:mini --num-ctx 2048
 \`\`\`
 
-### Few-Shot Learning
-\`\`\`
-Q: What is 2+2?
-A: 4
+**Context Window:** How much text the AI remembers. Default is 4096 tokens (about 3000 words).
 
-Q: What is the capital of France?
-A: Paris
+## Step 5: Practical Use Cases
 
-Q: What is photosynthesis?
-A: [Your question here]
+### Code Review
+
+\`\`\`bash
+ollama run phi3:mini "Review this JavaScript function and suggest improvements:
+
+function calc(a, b) {
+  return a + b
+}
+"
 \`\`\`
+
+### Writing Assistant
+
+\`\`\`bash
+ollama run phi3:mini "Make this email more professional:
+
+hey can u send me those files
+"
+\`\`\`
+
+### Learning Helper
+
+\`\`\`bash
+ollama run phi3:mini "Explain recursion with a simple example in Python"
+\`\`\`
+
+### Summarization
+
+\`\`\`bash
+ollama run phi3:mini "Summarize this in 3 bullet points: [paste long text]"
+\`\`\`
+
+## Step 6: Advanced Techniques
 
 ### Chain-of-Thought Prompting
-\`\`\`
-Let's solve this step by step:
-1. First, identify the problem
-2. Then, break it down
-3. Finally, provide the solution
+
+Add "Let's think step by step:" to get detailed reasoning:
+
+\`\`\`bash
+ollama run phi3:mini "Let's think step by step: How do I deploy a React app to GitHub Pages?"
 \`\`\`
 
-## Performance Optimization
+### Request Specific Formats
 
-### Memory Management
-- **8GB RAM**: Use default settings, close other apps
-- **16GB RAM**: Increase context window to 8192
+\`\`\`bash
+# Get JSON output
+ollama run phi3:mini "List 3 programming languages as JSON array"
+
+# Get Markdown
+ollama run phi3:mini "Create a markdown table comparing Python and JavaScript"
+
+# Get code only
+ollama run phi3:mini "Write a Python function to reverse a string. Code only, no explanation"
+\`\`\`
+
+### System Prompts (Set Behavior)
+
+\`\`\`bash
+ollama run phi3:mini "System: You are a Python expert who gives concise code examples.
+
+User: How do I read a CSV file?"
+\`\`\`
+
+## Troubleshooting
+
+### Model Won't Start
+\`\`\`bash
+# Check if Ollama is running
+ollama list
+
+# Restart Ollama
+killall ollama
+ollama serve &
+\`\`\`
+
+### Slow Responses
+- Close other applications to free RAM
+- Reduce context window: \`--num-ctx 2048\`
+- Use lower temperature: \`--temperature 0.5\`
+
+### Out of Memory
+\`\`\`bash
+# Check running models
+ollama ps
+
+# Stop a model
+ollama stop phi3:mini
+\`\`\`
+
+## Quick Reference Commands
+
+\`\`\`bash
+# List downloaded models
+ollama list
+
+# Delete a model
+ollama rm phi3:mini
+
+# Check running models
+ollama ps
+
+# See model details
+ollama show phi3:mini
+
+# Update a model
+ollama pull phi3:mini
+\`\`\`
+
+## Best Practices
+
+1. **Be Specific**: "Explain Python decorators with an example" beats "Explain decorators"
+2. **Set Constraints**: "In 100 words or less..." or "List 5 examples..."
+3. **Iterate**: Start broad, then ask follow-up questions to refine
+4. **Provide Context**: Give background information for better answers
+5. **Request Format**: Specify JSON, code, bullet points, etc.
+
+## M1 MacBook Air Performance
+
+**Expected Performance:**
+- **8GB RAM**: Smooth with default settings, max context 4096
+- **16GB RAM**: Can use larger context (8192+), run multiple models
+- **Response Time**: 1-3 seconds for typical questions
+- **Battery Impact**: Minimal for occasional use
+
+**Optimization for 8GB RAM:**
+\`\`\`bash
+# Efficient settings for 8GB Macs
+ollama run phi3:mini --num-ctx 2048 --temperature 0.7
+\`\`\`
+
+## Learn More
+
+- Official Ollama docs: [https://ollama.ai/docs](https://ollama.ai/docs)
+- Phi-3 research: [https://arxiv.org/abs/2404.14219](https://arxiv.org/abs/2404.14219)
+- Related articles: [[CodeLlama 7B Complete Guide]], [[Inter-Model Prompting: Phi-3 & CodeLlama]]
+
+## Next Steps
+
+1. Try the interactive mode with \`ollama run phi3:mini\`
+2. Experiment with different temperature settings
+3. Explore [[CodeLlama 7B Complete Guide]] for coding tasks
+4. Learn [[Inter-Model Prompting: Phi-3 & CodeLlama]] for advanced workflows`
 - Monitor with: \`ollama ps\`
 
 ### Speed Optimization
@@ -303,50 +454,425 @@ async function queryPhi3(prompt) {
     category: "AI",
     summary:
       "Everything you need to know about CodeLlama 7B-Instruct - From setup to advanced code generation, debugging, and optimization techniques.",
-    content: `# CodeLlama 7B-Instruct - Complete Guide
+    content: `# CodeLlama 7B-Instruct - Complete Beginner's Guide
 
-## Overview
-CodeLlama is Meta's specialized code generation model built on Llama 2. The 7B-Instruct variant is optimized for conversational coding assistance and runs efficiently on M1 MacBook Air.
+## What is CodeLlama?
 
-## Installation & Setup
+CodeLlama is Meta's AI model specifically trained for coding tasks. Think of it as your personal programming assistant that:
+- **Writes code** in 20+ programming languages
+- **Explains code** in plain English
+- **Debugs errors** and suggests fixes
+- **Reviews code** for improvements
+- **Runs locally** on your M1 MacBook Air (no internet needed)
+- **100% free** - no subscriptions or API costs
 
-### Basic Installation
+## Step 1: Install Ollama (If Not Already Done)
+
+If you haven't installed Ollama yet:
+1. Visit [https://ollama.ai](https://ollama.ai)
+2. Download for macOS
+3. Install and open Terminal
+4. Verify: \`ollama --version\`
+
+See [[Phi-3 Mini Complete Guide]] for detailed Ollama setup.
+
+## Step 2: Download CodeLlama
+
+Open Terminal and run:
+
 \`\`\`bash
-# Pull CodeLlama 7B Instruct
 ollama pull codellama:7b-instruct
+\`\`\`
 
-# Run interactively
+**Download size:** About 3.8GB (takes 5-15 minutes)
+
+**Which variant to choose:**
+- \`codellama:7b-instruct\` ← **Start here** (conversational, best for beginners)
+- \`codellama:7b-code\` - Code completion only
+- \`codellama:7b-python\` - Python specialist
+
+For most users, **7b-instruct** is the best choice.
+
+## Step 3: Your First Code Generation
+
+### Interactive Mode (Recommended for Learning)
+
+\`\`\`bash
+ollama run codellama:7b-instruct
+\`\`\`
+
+Now try these prompts:
+
+**Example 1 - Generate Code:**
+\`\`\`
+Write a Python function to check if a number is prime
+\`\`\`
+
+**Example 2 - Explain Code:**
+\`\`\`
+Explain this code:
+def fibonacci(n):
+    return n if n <= 1 else fibonacci(n-1) + fibonacci(n-2)
+\`\`\`
+
+**Example 3 - Fix Bugs:**
+\`\`\`
+Debug this Python code:
+numbers = [1, 2, 3]
+print(numbers[3])
+\`\`\`
+
+**To exit:** Type \`/bye\`
+
+### One-Shot Commands (Quick Tasks)
+
+\`\`\`bash
+# Generate a function
+ollama run codellama:7b-instruct "Write a JavaScript function to validate email addresses"
+
+# Get explanation
+ollama run codellama:7b-instruct "Explain what recursion is with a simple example"
+
+# Review code
+ollama run codellama:7b-instruct "Review this code for errors: [paste your code]"
+\`\`\`
+
+## Step 4: How to Ask for Better Code
+
+### ❌ Vague Prompt
+\`\`\`
+write a sorting function
+\`\`\`
+
+### ✅ Specific Prompt
+\`\`\`
+Write a Python function that:
+- Implements quicksort algorithm
+- Takes a list of integers
+- Returns sorted list
+- Includes type hints and docstring
+- Handles empty list edge case
+\`\`\`
+
+**Result:** Much better, more complete code!
+
+### Specify Your Tech Stack
+
+\`\`\`bash
+ollama run codellama:7b-instruct "Create a React component using TypeScript and hooks that fetches data from an API and displays it in a table"
+\`\`\`
+
+### Request Specific Features
+
+\`\`\`bash
+ollama run codellama:7b-instruct "Write an Express.js API endpoint with:
+- Input validation
+- Error handling
+- Async/await
+- TypeScript types
+- JSDoc comments"
+\`\`\`
+
+## Step 5: Common Coding Tasks
+
+### 1. Write a Function
+
+\`\`\`bash
+ollama run codellama:7b-instruct "Write a Python function to calculate the factorial of a number using recursion. Include docstring and type hints."
+\`\`\`
+
+### 2. Explain Existing Code
+
+\`\`\`bash
+ollama run codellama:7b-instruct "Explain this code line by line:
+
+const users = await db.query('SELECT * FROM users WHERE active = ?', [true])
+  .then(rows => rows.map(r => ({ id: r.id, name: r.name })))
+"
+\`\`\`
+
+### 3. Debug Code
+
+\`\`\`bash
+ollama run codellama:7b-instruct "This code gives an error. Find and fix the bug:
+
+def calculate_average(numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    return total / len(numbers)
+
+result = calculate_average([])
+"
+\`\`\`
+
+### 4. Code Review
+
+\`\`\`bash
+ollama run codellama:7b-instruct "Review this code for security issues, performance problems, and best practices:
+
+app.get('/user', (req, res) => {
+  const query = 'SELECT * FROM users WHERE id = ' + req.query.id
+  db.query(query, (err, result) => {
+    res.send(result)
+  })
+})
+"
+\`\`\`
+
+### 5. Generate Tests
+
+\`\`\`bash
+ollama run codellama:7b-instruct "Generate pytest unit tests for this function:
+
+def is_palindrome(text):
+    cleaned = ''.join(c.lower() for c in text if c.isalnum())
+    return cleaned == cleaned[::-1]
+"
+\`\`\`
+
+### 6. Convert Between Languages
+
+\`\`\`bash
+ollama run codellama:7b-instruct "Convert this JavaScript code to Python:
+
+const users = data.filter(u => u.age > 18).map(u => u.name)
+"
+\`\`\`
+
+## Step 6: Optimize Responses
+
+### For Precise Code (Recommended)
+
+\`\`\`bash
+ollama run codellama:7b-instruct --temperature 0.2 "Write a binary search function in Python"
+\`\`\`
+
+**Lower temperature (0.1-0.3)** = More deterministic, consistent code
+
+### For Creative Solutions
+
+\`\`\`bash
+ollama run codellama:7b-instruct --temperature 0.7 "Suggest 3 different ways to implement caching in Node.js"
+\`\`\`
+
+**Higher temperature (0.6-0.8)** = More varied approaches
+
+### For Reproducible Code
+
+\`\`\`bash
+ollama run codellama:7b-instruct --temperature 0.1 --seed 42 "Generate a REST API boilerplate"
+\`\`\`
+
+Same seed + low temp = Same code every time
+
+## Step 7: Multi-Step Code Generation
+
+### Approach 1: Build Incrementally
+
+\`\`\`bash
+# Step 1
+ollama run codellama:7b-instruct "Write a basic Express.js server setup"
+
+# Step 2
+ollama run codellama:7b-instruct "Add authentication middleware to the Express server"
+
+# Step 3
+ollama run codellama:7b-instruct "Add error handling middleware"
+\`\`\`
+
+### Approach 2: Guided Development
+
+\`\`\`
+Let's build a URL shortener API step by step.
+
+Step 1: Create the Express.js app structure with routes
+Step 2: Add a function to generate short codes
+Step 3: Add database operations (use SQLite)
+Step 4: Add validation and error handling
+\`\`\`
+
+## Supported Languages (Ranked by Quality)
+
+**Excellent (Most Reliable):**
+- Python
+- JavaScript / TypeScript
+- C++ / C
+- Java
+- C#
+
+**Very Good:**
+- Go
+- Rust
+- PHP
+- Ruby
+- Swift
+- Kotlin
+
+**Good:**
+- Scala
+- R
+- Shell scripting (bash/zsh)
+- SQL
+- HTML/CSS
+
+**Fair:**
+- Dart
+- Perl
+- Lua
+- Haskell
+
+## Pro Tips for Better Results
+
+### 1. Provide Context
+
+❌ "Write an API endpoint"
+✅ "In a Node.js Express app using MongoDB, write an API endpoint to create a new user"
+
+### 2. Show Examples
+
+\`\`\`
+I want code similar to this pattern:
+
+async function fetchData(url) {
+  const response = await fetch(url)
+  return response.json()
+}
+
+Now create a function that fetches multiple URLs in parallel
+\`\`\`
+
+### 3. Request Documentation
+
+\`\`\`
+Write a Python class for a shopping cart. Include:
+- Docstrings for all methods
+- Type hints
+- Usage examples in comments
+\`\`\`
+
+### 4. Ask for Edge Cases
+
+\`\`\`
+Write a function to divide two numbers.
+Handle division by zero, non-numeric inputs, and floating point precision issues.
+\`\`\`
+
+### 5. Specify Code Style
+
+\`\`\`
+Write a React component following these rules:
+- Functional component with hooks
+- TypeScript
+- Use arrow functions
+- Destructure props
+- Add PropTypes
+\`\`\`
+
+## Troubleshooting
+
+### Slow or No Response
+
+\`\`\`bash
+# Check if model is running
+ollama ps
+
+# Restart if frozen
+ollama stop codellama:7b-instruct
+ollama run codellama:7b-instruct
+\`\`\`
+
+### Code Output is Cut Off
+
+\`\`\`bash
+# Increase context window
+ollama run codellama:7b-instruct --num-ctx 8192
+\`\`\`
+
+### Code Quality is Poor
+
+1. Be more specific in your prompt
+2. Lower temperature: \`--temperature 0.2\`
+3. Provide examples or context
+4. Break complex tasks into smaller steps
+
+### Out of Memory
+
+\`\`\`bash
+# Reduce context window
+ollama run codellama:7b-instruct --num-ctx 2048
+
+# Close other applications
+# Consider using phi3:mini for non-code tasks
+\`\`\`
+
+## Quick Reference
+
+\`\`\`bash
+# Start interactive session
 ollama run codellama:7b-instruct
 
-# Alternative versions
-ollama pull codellama:7b          # Base model
-ollama pull codellama:7b-code     # Code completion
-ollama pull codellama:7b-python   # Python specialized
+# One-shot command
+ollama run codellama:7b-instruct "your prompt here"
+
+# With custom settings (precise code)
+ollama run codellama:7b-instruct --temperature 0.2 --top-p 0.95 "your prompt"
+
+# List available models
+ollama list
+
+# Remove model
+ollama rm codellama:7b-instruct
+
+# Update model
+ollama pull codellama:7b-instruct
 \`\`\`
 
-## Model Variants Explained
+## Real-World Example Workflow
 
-- **7b-instruct**: Best for chat, explanations, conversational coding
-- **7b**: Raw model for completions
-- **7b-code**: Optimized for code completion
-- **7b-python**: Python-specific variant
+**Task:** Build a password validator
 
-## Advanced Usage
-
-### Code Generation
 \`\`\`bash
-ollama run codellama:7b-instruct "Write a Python function to calculate fibonacci numbers"
+# 1. Generate initial function
+ollama run codellama:7b-instruct "Write a Python function to validate passwords with at least 8 characters, one uppercase, one lowercase, one number, and one special character"
+
+# 2. Add error messages
+ollama run codellama:7b-instruct "Modify the password validator to return specific error messages for each validation rule"
+
+# 3. Generate tests
+ollama run codellama:7b-instruct "Write pytest tests for the password validator covering all rules and edge cases"
+
+# 4. Add documentation
+ollama run codellama:7b-instruct "Add detailed docstrings and type hints to the password validator"
 \`\`\`
 
-### Code Explanation
+## M1 MacBook Air Performance
+
+**Expected Performance:**
+- **Response time:** 2-5 seconds for typical code generation
+- **RAM usage:** 4-6GB while running
+- **Battery impact:** Moderate (similar to watching video)
+
+**Optimization for 8GB Macs:**
 \`\`\`bash
-ollama run codellama:7b-instruct "Explain this code: [paste code]"
+# Efficient settings
+ollama run codellama:7b-instruct --num-ctx 4096 --temperature 0.2
 \`\`\`
 
-### Debugging
-\`\`\`bash
-ollama run codellama:7b-instruct "Debug this code and explain the error: [code]"
-\`\`\`
+## Learn More
+
+- CodeLlama research paper: [https://arxiv.org/abs/2308.12950](https://arxiv.org/abs/2308.12950)
+- Ollama documentation: [https://ollama.ai/docs](https://ollama.ai/docs)
+- Related: [[Phi-3 Mini Complete Guide]] for general AI tasks
+- Advanced: [[Inter-Model Prompting: Phi-3 & CodeLlama]] for combining both models
+
+## Next Steps
+
+1. Start with simple prompts: "Write a hello world program in [language]"
+2. Gradually add more requirements and constraints
+3. Experiment with temperature settings
+4. Try [[Inter-Model Prompting: Phi-3 & CodeLlama]] for complex projects
+5. Use [[Phi-3 Mini Complete Guide]] for planning and documentation`
 
 ### Code Review
 \`\`\`bash
