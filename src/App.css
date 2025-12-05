@@ -195,39 +195,6 @@
 }
 
 .topic-card h3 {
-  /* Responsive Design - Tablet */
-  @media (min-width: 768px) {
-    .menu-button {
-      display: none;
-    }
-
-    .search-container {
-      max-width: 600px;
-    }
-
-    .topic-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .hero-title {
-      font-size: calc(var(--font-size-3xl) * 1.8);
-    }
-  }
-
-  /* Responsive Design - Desktop */
-  @media (min-width: 1024px) {
-    .topic-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    .main {
-      padding: var(--spacing-xl) 0;
-    }
-
-    .hero-title {
-      font-size: calc(var(--font-size-3xl) * 2);
-    }
-  }
   margin-top: var(--spacing-sm);
 }
 
