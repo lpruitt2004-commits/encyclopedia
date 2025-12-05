@@ -3,6 +3,82 @@ import "./ArticleDetail.css";
 function ArticleDetail({ article, onClose }) {
   if (!article) return null;
 
+  // Simple function to render content with proper formatting
+  const renderContent = (content) => {
+    // Split by double newlines to get paragraphs/sections
+    const sections = content.split("\n\n");
+
+    return sections.map((section, idx) => {
+      // Check if it's a heading (starts with ##)
+      if (section.startsWith("## ")) {
+        return <h2 key={idx}>{section.replace("## ", "")}</h2>;
+      }
+
+      // Check if it's a list (contains lines starting with - or *)
+      if (
+        section.includes("\n- ") ||
+        section.includes("\n* ") ||
+        section.startsWith("- ") ||
+        section.startsWith("* ")
+      ) {
+        const items = section
+          .split("\n")
+          .filter((line) => line.startsWith("- ") || line.startsWith("* "));
+        return (
+          <ul key={idx}>
+            {items.map((item, i) => (
+              <li
+                key={i}
+                dangerouslySetInnerHTML={{
+                  __html: formatText(item.replace(/^[*-] /, "")),
+                }}
+              />
+            ))}
+          </ul>
+        );
+      }
+
+      // Check if it's a bold section (starts with **)
+      if (section.startsWith("**") && section.includes("**:")) {
+        return (
+          <p key={idx}>
+            <strong dangerouslySetInnerHTML={{ __html: formatText(section) }} />
+          </p>
+        );
+      }
+
+      // Regular paragraph
+      return (
+        <p
+          key={idx}
+          dangerouslySetInnerHTML={{ __html: formatText(section) }}
+        />
+      );
+    });
+  };
+
+  // Format text with bold, links, etc.
+  const formatText = (text) => {
+    let formatted = text;
+
+    // Bold text **text**
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+    // External links [text](url)
+    formatted = formatted.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
+
+    // Internal article links [[Article Title]]
+    formatted = formatted.replace(
+      /\[\[([^\]]+)\]\]/g,
+      '<a href="#" class="internal-link" data-article="$1">$1</a>'
+    );
+
+    return formatted;
+  };
+
   return (
     <div className="article-detail-overlay" onClick={onClose}>
       <div className="article-detail" onClick={(e) => e.stopPropagation()}>
@@ -36,27 +112,7 @@ function ArticleDetail({ article, onClose }) {
 
           <div className="article-author">By {article.author}</div>
 
-          <div className="article-body">
-            <p>{article.content}</p>
-
-            {/* You can add more content sections here */}
-            <h2>Overview</h2>
-            <p>{article.summary}</p>
-
-            <h2>Key Points</h2>
-            <ul>
-              <li>Comprehensive coverage of the topic</li>
-              <li>Practical examples and use cases</li>
-              <li>Best practices and recommendations</li>
-            </ul>
-
-            <h2>Learn More</h2>
-            <p>
-              This article provides a foundation for understanding{" "}
-              {article.title.toLowerCase()}. Continue exploring related topics
-              to deepen your knowledge.
-            </p>
-          </div>
+          <div className="article-body">{renderContent(article.content)}</div>
         </div>
       </div>
     </div>

@@ -122,6 +122,35 @@
   color: var(--text-primary);
 }
 
+/* Article Links */
+.article-body a {
+  color: var(--primary-color);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all var(--transition-base);
+}
+
+.article-body a:hover {
+  border-bottom-color: var(--primary-color);
+  color: var(--primary-hover);
+}
+
+.article-body a[target="_blank"]::after {
+  content: " ↗";
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.article-body .internal-link {
+  color: #8b5cf6;
+  font-weight: 500;
+}
+
+.article-body .internal-link:hover {
+  border-bottom-color: #8b5cf6;
+  color: #7c3aed;
+}
+
 @media (min-width: 768px) {
   .article-detail-overlay {
     padding: var(--spacing-xl);
