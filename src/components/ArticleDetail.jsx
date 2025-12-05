@@ -1,6 +1,6 @@
 import "./ArticleDetail.css";
 
-function ArticleDetail({ article, onClose }) {
+function ArticleDetail({ article, onClose, onInternalLink }) {
   if (!article) return null;
 
   // Simple function to render content with proper formatting
@@ -79,6 +79,16 @@ function ArticleDetail({ article, onClose }) {
     return formatted;
   };
 
+  const handleContentClick = (event) => {
+    const link = event.target.closest("a.internal-link");
+    if (!link) return;
+    event.preventDefault();
+    const targetTitle = link.dataset.article;
+    if (targetTitle && onInternalLink) {
+      onInternalLink(targetTitle);
+    }
+  };
+
   return (
     <div className="article-detail-overlay" onClick={onClose}>
       <div className="article-detail" onClick={(e) => e.stopPropagation()}>
@@ -112,7 +122,9 @@ function ArticleDetail({ article, onClose }) {
 
           <div className="article-author">By {article.author}</div>
 
-          <div className="article-body">{renderContent(article.content)}</div>
+          <div className="article-body" onClick={handleContentClick}>
+            {renderContent(article.content)}
+          </div>
         </div>
       </div>
     </div>
