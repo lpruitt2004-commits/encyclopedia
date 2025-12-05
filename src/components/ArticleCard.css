@@ -57,6 +57,35 @@
   flex: 1;
 }
 
+.article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding-left: 1rem;
+  margin-top: 0.15rem;
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 153, 102, 0.15);
+  border: 1px solid var(--lcars-amber);
+  color: var(--lcars-amber);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  backdrop-filter: blur(2px);
+}
+
+.tag-pill.more-pill {
+  background: rgba(87, 201, 255, 0.12);
+  border-color: var(--lcars-cyan);
+  color: var(--lcars-cyan);
+}
+
 .article-footer {
   display: flex;
   justify-content: flex-end;

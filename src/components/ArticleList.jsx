@@ -18,6 +18,7 @@ function ArticleList({ articles, onArticleClick }) {
           title={article.title}
           summary={article.summary}
           category={article.category}
+          tags={article.tags}
           onClick={() => onArticleClick(article)}
         />
       ))}

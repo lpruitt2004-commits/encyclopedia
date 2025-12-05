@@ -116,6 +116,20 @@ function ArticleDetail({ article, onClose, onInternalLink }) {
             <span className="article-date">
               {new Date(article.date).toLocaleDateString()}
             </span>
+            {article.tags && article.tags.length > 0 && (
+              <div className="article-tags" aria-label="Article tags">
+                {article.tags.slice(0, 10).map((tag) => (
+                  <span className="tag-pill" key={tag}>
+                    {tag}
+                  </span>
+                ))}
+                {article.tags.length > 10 && (
+                  <span className="tag-pill more-pill">
+                    +{article.tags.length - 10}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           <h1 className="article-detail-title">{article.title}</h1>

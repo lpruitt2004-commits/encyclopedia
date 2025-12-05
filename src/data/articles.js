@@ -1,4 +1,17 @@
-export const articles = [
+const tokenize = (text = "") =>
+  text
+    .toLowerCase()
+    .split(/[^a-z0-9+]+/)
+    .filter((word) => word.length > 2);
+
+const buildTags = (article) => {
+  const base = [article.category, ...(article.tags || [])];
+  base.push(...tokenize(article.title));
+  base.push(...tokenize(article.summary));
+  return Array.from(new Set(base));
+};
+
+const rawArticles = [
   {
     id: 1,
     title: "Ancient Rome",
@@ -536,6 +549,11 @@ export const articles = [
     date: "2024-12-05",
   },
 ];
+
+export const articles = rawArticles.map((article) => ({
+  ...article,
+  tags: buildTags(article),
+}));
 
 export const categories = [
   "All",

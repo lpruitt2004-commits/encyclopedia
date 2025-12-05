@@ -81,6 +81,39 @@
   flex-wrap: wrap;
 }
 
+.article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 153, 102, 0.35),
+    rgba(255, 179, 128, 0.2)
+  );
+  border: 1px solid var(--lcars-amber);
+  color: var(--lcars-amber);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tag-pill.more-pill {
+  background: linear-gradient(
+    90deg,
+    rgba(87, 201, 255, 0.28),
+    rgba(87, 201, 255, 0.16)
+  );
+  border-color: var(--lcars-cyan);
+  color: var(--lcars-cyan);
+}
+
 .article-category-badge {
   display: inline-flex;
   align-items: center;

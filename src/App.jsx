@@ -24,16 +24,23 @@ function App() {
     let result = articles;
 
     if (selectedCategory !== "All") {
-      result = result.filter((article) => article.category === selectedCategory);
+      result = result.filter(
+        (article) => article.category === selectedCategory
+      );
     }
 
     if (searchQuery.trim()) {
-      result = result.filter(
-        (article) =>
-          article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          article.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          article.content.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      const query = searchQuery.toLowerCase();
+      result = result.filter((article) => {
+        const inText =
+          article.title.toLowerCase().includes(query) ||
+          article.summary.toLowerCase().includes(query) ||
+          article.content.toLowerCase().includes(query);
+        const inTags = (article.tags || []).some((tag) =>
+          tag.toLowerCase().includes(query)
+        );
+        return inText || inTags;
+      });
       setShowWelcome(false);
     }
 
