@@ -17,7 +17,9 @@ function App() {
 
     // Filter by category
     if (selectedCategory !== "All") {
-      result = result.filter((article) => article.category === selectedCategory);
+      result = result.filter(
+        (article) => article.category === selectedCategory
+      );
     }
 
     // Filter by search query
@@ -114,6 +116,26 @@ function App() {
           {showWelcome ? (
             <section className="welcome-section fade-in">
               <div className="britannica-hero">
+                <div className="picard-quote">
+                  <svg
+                    className="quote-icon"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z" />
+                  </svg>
+                  <blockquote>
+                    <p className="quote-text">
+                      "The acquisition of knowledge is not for material gain,
+                      but for personal growth. To expand the mind, to seek out
+                      new ideas and perspectives—this is what makes us better,
+                      what enriches the human experience."
+                    </p>
+                    <footer className="quote-author">
+                      — Captain Jean-Luc Picard
+                    </footer>
+                  </blockquote>
+                </div>
                 <h1 className="hero-title">Encyclopedia</h1>
                 <p className="hero-tagline">
                   Explore trusted knowledge on thousands of topics
@@ -137,10 +159,7 @@ function App() {
                     >
                       <h3>{category}</h3>
                       <p>
-                        {
-                          articles.filter((a) => a.category === category)
-                            .length
-                        }{" "}
+                        {articles.filter((a) => a.category === category).length}{" "}
                         articles
                       </p>
                     </div>
@@ -179,10 +198,7 @@ function App() {
 
       {/* Article Detail Modal */}
       {selectedArticle && (
-        <ArticleDetail
-          article={selectedArticle}
-          onClose={handleCloseArticle}
-        />
+        <ArticleDetail article={selectedArticle} onClose={handleCloseArticle} />
       )}
 
       {/* Footer */}

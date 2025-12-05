@@ -89,6 +89,52 @@
   margin-bottom: var(--spacing-xl);
 }
 
+/* Picard Quote */
+.picard-quote {
+  max-width: 800px;
+  margin: 0 auto var(--spacing-xl);
+  padding: var(--spacing-xl);
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.05) 0%,
+    rgba(139, 92, 246, 0.05) 100%
+  );
+  border-left: 4px solid var(--primary-color);
+  border-radius: 8px;
+  position: relative;
+}
+
+.quote-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--primary-color);
+  opacity: 0.2;
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
+}
+
+.picard-quote blockquote {
+  margin: 0;
+  padding-left: var(--spacing-xl);
+}
+
+.quote-text {
+  font-size: var(--font-size-lg);
+  line-height: 1.8;
+  color: var(--text-primary);
+  font-style: italic;
+  margin-bottom: var(--spacing-md);
+}
+
+.quote-author {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-style: normal;
+  text-align: right;
+}
+
 .hero-title {
   font-size: calc(var(--font-size-3xl) * 1.5);
   font-weight: 700;
